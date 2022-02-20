@@ -6,7 +6,7 @@ AnonyShield is a light-weight reverse proxy solution for ensuring only trusted v
 
 AnonyShield maintains an IP whitelist to validate if the visitor is trusted.
 
-![https://raw.githubusercontent.com/pwp-app/anonyshield/main/assets/structure.png]()
+![Structure](https://raw.githubusercontent.com/pwp-app/anonyshield/main/assets/structure.png)
 
 ## License
 
