@@ -1,0 +1,38 @@
+{
+  "name": "@anonyshield/proxy",
+  "version": "0.1.0",
+  "description": "Typescript library boilerplate",
+  "main": "dist/lib.umd.js",
+  "module": "dist/lib.esm.js",
+  "typings": "dist/types/index.d.ts",
+  "keywords": [
+    "shield",
+    "koa",
+    "proxy"
+  ],
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ./server.js"
+  },
+  "author": "BackRunner",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.17.0",
+    "@types/koa": "^2.13.4",
+    "@types/node": "^17.0.18",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.9.0",
+    "eslint-config-alloy": "^4.5.1",
+    "eslint-config-prettier": "^8.4.0",
+    "prettier": "^2.5.1"
+  },
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "koa": "^2.13.4",
+    "koa-better-http-proxy": "^0.2.9",
+    "koa-bodyparser": "^4.3.0",
+    "koa-compose": "^4.1.0",
+    "koa-tree-router": "^0.10.0",
+    "mitt": "^3.0.0",
+    "response-wrap": "^0.1.1"
+  }
+}

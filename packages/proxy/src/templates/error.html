@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title><%= error %> - AnonyShield</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1e1e1e" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap" rel="stylesheet" />
+    <style>
+      html,
+      body,
+      .container {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+        background-image: linear-gradient(120deg, #2e2d30, #1a1d1f 75%, #1a1d1f);
+        color: #dfdfdf;
+        font-weight: 500;
+        font-family: 'M PLUS Rounded 1c', sans-serif;
+        position: relative;
+      }
+      .content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .box {
+        margin-bottom: 24px;
+        position: relative;
+        transform: translateY(-10%);
+        user-select: none;
+        text-align: center;
+      }
+      .box > .error {
+        font-size: 56px;
+        margin-bottom: 36px;
+        letter-spacing: 0.25rem;
+      }
+      .box > .footer {
+        font-size: 15px;
+        color: #4e4d51;
+      }
+      .box > .footer > a {
+        font-size: 15px;
+        color: #4e4d51;
+        letter-spacing: 0.015rem;
+        text-decoration: none;
+      }
+      .box > .footer > a:hover {
+        color: #6e6d71;
+      }
+      @media screen and (max-width: 1000px) {
+        .box > .error {
+          font-size: 6vw;
+          margin-bottom: 3.2vw;
+        }
+      }
+      @media screen and (max-width: 768px) {
+        .box > .error {
+          font-size: 8vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <div class="box">
+          <div class="error"><%= error %></div>
+          <div class="footer">
+            Powered by <a href="https://github.com/pwp-app/anonyshield" target="_blank">AnonyShield</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
