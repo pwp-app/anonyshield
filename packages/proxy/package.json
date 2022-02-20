@@ -29,7 +29,6 @@
     "koa-better-http-proxy": "^0.2.9",
     "koa-bodyparser": "^4.3.0",
     "koa-compose": "^4.1.0",
-    "koa-tree-router": "^0.10.0",
     "mitt": "^3.0.0",
     "response-wrap": "^0.1.1"
   }

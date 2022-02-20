@@ -1,5 +1,4 @@
 const Koa = require('koa');
-const TreeRouter = require('koa-tree-router');
 const bodyParser = require('koa-bodyparser');
 const proxy = require('koa-better-http-proxy');
 const mitt = require('mitt');
@@ -9,12 +8,24 @@ const { getIpList, getUserTokenList, renderErrorPage } = require('./utils');
 
 const initProxy = function (config, emitter) {
   const proxyServer = new Koa();
-  const router = new TreeRouter();
   let ipList = getIpList(config);
   let userTokenList = getUserTokenList(config);
-  // set up proxy
-  router.all(
-    '/',
+  // apply middlewares
+  proxyServer.user(bodyParser);
+  proxyServer.use(async (ctx, next) => {
+    // register update api
+    if (ctx.path === '/_anonyshield/update' && ctx.method === 'POST') {
+      const { token, ip } = ctx.request.body;
+      if (!userTokenList.includes(token)) {
+        ctx.throw(400, 'Invalid user token.');
+      }
+      emitter.emit('update-ip', { token, ip });
+      ctx.body = new SuccessResponse();
+      return;
+    }
+    await next();
+  });
+  proxyServer.use(
     proxy({
       target: config.target,
       https: config.https,
@@ -23,33 +34,27 @@ const initProxy = function (config, emitter) {
       },
     }),
   );
-  router.all('/', (ctx) => {
-    // render error page if filtered
-    ctx.body = renderErrorPage('Access Denied');
-  });
-  // set up api
-  router.post('/_anonyshield/update', (ctx) => {
-    const { token, ip } = ctx.request.body;
-    if (!userTokenList.includes(token)) {
-      ctx.throw(400, 'Invalid user token.');
-    }
-    emitter.emit('update-ip', { token, ip });
-    ctx.body = new SuccessResponse();
-  });
-  // apply middlewares
-  proxyServer.user(bodyParser);
-  proxyServer.use(router);
   proxyServer.use(async (ctx, next) => {
     try {
       await next();
     } catch (err) {
-      ctx.repsonse.status = err.statusCode || err.status || 500;
+      ctx.status = err.statusCode || err.status || 500;
       if (ctx.request.accepts('html')) {
-        ctx.response.body = renderErrorPage(
-          ctx.response.status === 404 ? renderErrorPage('Not found') : renderErrorPage('Internal server error'),
-        );
+        if (ctx.status === 404) {
+          if (ctx.path.startsWith('/_anonyshield')) {
+            ctx.body = renderErrorPage('Not found');
+          }
+          return;
+        }
+        ctx.body = renderErrorPage('Internal server error');
       } else {
-        ctx.response.body = new ErrorResponse(ctx.repsonse.status, isDev ? err.message : 'Internal server error');
+        if (ctx.response.status === 404) {
+          if (ctx.path.startsWith('/_anonyshield')) {
+            ctx.body = new ErrorResponse(404, 'Not found');
+          }
+          return;
+        }
+        ctx.body = new ErrorResponse(ctx.repsonse.status, isDev ? err.message : 'Internal server error');
       }
     }
   });
