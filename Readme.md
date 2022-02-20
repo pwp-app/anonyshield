@@ -10,6 +10,8 @@ AnonyShield maintains an IP whitelist to validate if the visitor is trusted.
 
 This project includes a `client` to update IP for visitor whose IP is dynamic, a `reverse proxy server` to protect the site, and a `cli tool` to help you manage the whitelist.
 
+Tip: All packages are powered by `Node.js`, please ensure that your environment has supported it.
+
 ## License
 
 MIT
